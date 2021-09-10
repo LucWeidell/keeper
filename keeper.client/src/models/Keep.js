@@ -1,4 +1,4 @@
-import { Profile } from './Profile'
+import Profile from './Profile'
 export default class Keep {
   /** Constructor for a Keep
    *
