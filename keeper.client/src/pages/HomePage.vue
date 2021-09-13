@@ -1,6 +1,6 @@
 <template>
-  <div class="HomePage container-fluid">
-    <div class="row">
+  <div class="HomePage container-fluid flex-grow-1">
+    <div class="row flex-grow-1">
       <KeepCard v-for="k in keeps" :key="k.id" :keep="k" />
     </div>
   </div>
@@ -29,20 +29,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.masonry-with-flex {
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-  max-height: 1000px;
-  div {
-    max-width: 200px;
-    min-height:500px;
-    color: white;
-    margin: 0 1rem 1rem 0;
-    font-family: system-ui;
-    font-weight: 900;
-    font-size: 2rem;
-  }
-}
 
 </style>

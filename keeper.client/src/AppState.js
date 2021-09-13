@@ -18,6 +18,7 @@ export const AppState = reactive({
     CreatorId: '6132aa76b7da62ee06dc46e5',
     Name: 'First Keep',
     Description: 'My first Keep ever',
+    Img: 'http://placebeard.it/200x500',
     Views: 20,
     Shares: 50,
     Keeps: 12
@@ -25,6 +26,56 @@ export const AppState = reactive({
     Id: 2,
     CreatorId: '6132aa76b7da62ee06dc46e5',
     Name: 'Second Keep',
+    Description: 'My Second Keep ever',
+    Img: 'http://placebeard.it/300x600',
+    Views: 10,
+    Shares: 10,
+    Keeps: 3
+  }), new Keep({
+    Id: 3,
+    CreatorId: '6132aa76b7da62ee06dc46e5',
+    Name: 'Third Keep',
+    Description: 'My Second Keep ever',
+    Views: 10,
+    Shares: 10,
+    Keeps: 3
+  }), new Keep({
+    Id: 4,
+    CreatorId: '6132aa76b7da62ee06dc46e5',
+    Name: 'Fourth Keep',
+    Description: 'My Second Keep ever',
+    Views: 10,
+    Shares: 10,
+    Keeps: 3
+  }), new Keep({
+    Id: 5,
+    CreatorId: '6132aa76b7da62ee06dc46e5',
+    Name: 'Fifth Keep',
+    Description: 'My Second Keep ever',
+    Views: 10,
+    Shares: 10,
+    Keeps: 3
+  }), new Keep({
+    Id: 6,
+    CreatorId: '6132aa76b7da62ee06dc46e5',
+    Name: 'Sixth Keep',
+    Description: 'My Second Keep ever',
+    Img: 'http://placebeard.it/300x400',
+    Views: 10,
+    Shares: 10,
+    Keeps: 3
+  }), new Keep({
+    Id: 7,
+    CreatorId: '6132aa76b7da62ee06dc46e5',
+    Name: 'Seventh Keep',
+    Description: 'My Second Keep ever',
+    Views: 10,
+    Shares: 10,
+    Keeps: 3
+  }), new Keep({
+    Id: 8,
+    CreatorId: '6132aa76b7da62ee06dc46e5',
+    Name: 'Eighth Keep',
     Description: 'My Second Keep ever',
     Views: 10,
     Shares: 10,

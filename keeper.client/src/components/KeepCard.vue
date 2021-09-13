@@ -1,6 +1,6 @@
 <template>
-  <div class="masonry-with-flex">
-    <div class="KeepCard col-md-3 d-flex align-items-end justify-content-between" data-toggle="modal" :data-target="'#keep-detail-'+keep.id" style="background-image: url('http://placebeard.it/300x300'); background-size: cover;">
+  <div class="masonry-with-flex px-2 mt-2 flex-grow-1">
+    <div class="KeepCard flex-grow-1 h-100 col-md-3 d-flex align-items-end justify-content-between" data-toggle="modal" :data-target="'#keep-detail-'+keep.id" style="background-image: url('http://placebeard.it/300x300'); background-size: cover;">
       <h4>Name Keep</h4>
       <!-- FIXME add the keep creator id here in params -->
       <router-link :to="{name: 'Profile', params: {id: 'FIXME'}}">
@@ -49,7 +49,7 @@
           <div class="container-fluid">
             <div class="row">
               <div class="col-md-6">
-                <img class="w-100 h-100" src="http://placebeard.it/200x20" alt="">
+                <img class="w-100 h-100" src="http://placebeard.it/500x500" alt="">
               </div>
               <div class="col-md-6">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -157,8 +157,8 @@ export default {
   flex-wrap: wrap;
   max-height: 1000px;
   div {
-    max-width: 300px;
-    min-height:600px;
+    max-width: 400px;
+    // min-height:600px;
     color: white;
     margin: 0 1rem 1rem 0;
     font-family: system-ui;
