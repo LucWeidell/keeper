@@ -15,6 +15,10 @@ namespace keeper.Services
         {
             return _repo.GetById(id).Email;
         }
+        internal Profile GetProfileById(string id)
+        {
+            return _repo.GetById(id);
+        }
         internal Account GetProfileByEmail(string email)
         {
             return _repo.GetByEmail(email);

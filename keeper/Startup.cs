@@ -25,9 +25,17 @@ namespace keeper
         public void ConfigureServices(IServiceCollection services)
         {
             // Transients for service
-
+            services.AddTransient<AccountService>();
+            services.AddTransient<KeepsService>();
+            services.AddTransient<VaultsService>();
+            services.AddTransient<VaultKeepsService>();
+            // services.AddTransient<ProfilesService>();
             // transients for repositories
-
+            services.AddTransient<KeepsRepository>();
+            services.AddTransient<VaultsRepository>();
+            services.AddTransient<VaultKeepsRepository>();
+            services.AddTransient<VaultKeepsRepository>();
+            // All transients added
             ConfigureCors(services);
             ConfigureAuth(services);
             services.AddControllers();
