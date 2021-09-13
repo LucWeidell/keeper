@@ -18,6 +18,6 @@ export default class Vault {
     /** @type {Boolean} */
     this.isPrivate = vault.isPrivate || null
     /** @type {Profile} */
-    this.creator = new Profile(vault.Creator) || null
+    this.Creator = (vault.Creator) ? new Profile(vault.Creator) : null
   }
 }

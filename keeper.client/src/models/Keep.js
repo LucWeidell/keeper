@@ -19,7 +19,9 @@ export default class Keep {
     this.views = keep.Views
     /** @type {Int} */
     this.shares = keep.Shares
+    /** @type {Int} */
+    this.keeps = keep.Keeps
     /** @type {Profile} */
-    this.creator = new Profile(keep.Creator) || null
+    this.Creator = (keep.Creator) ? new Profile(keep.Creator) : null
   }
 }
