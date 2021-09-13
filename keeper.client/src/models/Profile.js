@@ -4,7 +4,6 @@ export default class Profile {
    * @param {Object} profile A POJO profile should be given for the constructor
    */
   constructor(profile) {
-    debugger
     /** @type {String} Id of a profile: really an account */
     this.id = profile.Id || profile.id
     /** @type {String}  Name of the profile: defaults to the email if none given */

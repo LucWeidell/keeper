@@ -16,7 +16,7 @@ export default class Vault {
     this.description = vault.Description
     // REVIEW
     /** @type {Boolean} */
-    this.isPrivate = vault.isPrivate || null
+    this.isPrivate = vault.IsPrivate || null
     /** @type {Profile} */
     this.Creator = (vault.Creator) ? new Profile(vault.Creator) : null
   }
