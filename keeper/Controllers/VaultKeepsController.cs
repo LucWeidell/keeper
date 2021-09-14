@@ -30,9 +30,9 @@ namespace keeper.Controllers
         try
         {
             Profile userInfo = await HttpContext.GetUserInfoAsync<Account>();
-            VaultKeep vaultKeep = _vks.RemoveVaultKeep(id, userInfo);
+            string result = _vks.RemoveVaultKeep(id, userInfo);
             //  Ill maybe return the deleted item
-             return Ok(vaultKeep);
+             return Ok(result);
         }
         catch (Exception err)
         {
@@ -46,7 +46,7 @@ namespace keeper.Controllers
         try
         {
             Profile userInfo = await HttpContext.GetUserInfoAsync<Account>();
-            rawVaultKeep.creatorId = userInfo.Id;
+            rawVaultKeep.CreatorId = userInfo.Id;
             VaultKeep vaultKeep = _vks.CreateVaultKeep(rawVaultKeep);
             //  Ill maybe return the deleted item
              return Ok(vaultKeep);

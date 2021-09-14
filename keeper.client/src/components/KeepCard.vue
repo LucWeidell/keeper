@@ -3,9 +3,7 @@
     <div class="KeepCard flex-grow-1 h-100 col-md-3 d-flex align-items-end justify-content-between" data-toggle="modal" :data-target="'#keep-detail-'+keep.id" style="background-image: url('http://placebeard.it/300x300'); background-size: cover;">
       <h4>Name Keep</h4>
       <!-- FIXME add the keep creator id here in params -->
-      <router-link :to="{name: 'Profile', params: {id: 'FIXME'}}">
-        <img class="rounded-pill" src="http://placebeard.it/50x50" alt="">
-      </router-link>
+      <img class="rounded-pill" src="http://placebeard.it/50x50" alt="" @click.stop="profileNavigate">
     </div>
   </div>
 
@@ -135,7 +133,10 @@
 </template>
 
 <script>
+import { useRouter } from 'vue-router'
 import Keep from '../models/Keep'
+import Pop from '../utils/Notifier'
+
 export default {
   name: 'KeepCard',
   props: {
@@ -144,8 +145,18 @@ export default {
       required: true
     }
   },
-  setup() {
-    return {}
+  setup(props) {
+    const router = useRouter()
+    return {
+      router,
+      async profileNavigate() {
+        try {
+          await router.push({ name: 'Profile', params: { id: props.keep.creatorId } })
+        } catch (error) {
+          Pop.error('Failed to got to Profile: ' + error, 'error')
+        }
+      }
+    }
   }
 }
 </script>
@@ -155,9 +166,10 @@ export default {
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
-  max-height: 1000px;
-  div {
-    max-width: 400px;
+  .col-md-3 {
+    max-width: 300px;
+    min-width: 300px;
+    min-height: 400px;
     // min-height:600px;
     color: white;
     margin: 0 1rem 1rem 0;

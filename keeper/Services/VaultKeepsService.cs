@@ -17,9 +17,14 @@ namespace keeper.Services
       _vks = vks;
     }
 
-    internal VaultKeep RemoveVaultKeep(int id, Profile userInfo)
+    internal string RemoveVaultKeep(int id, Profile userInfo)
     {
-      throw new NotImplementedException();
+      VaultKeep foundVaultKeep = GetVaultKeepByID(id);
+      if(foundVaultKeep.CreatorId != userInfo.Id){
+        throw new Exception("Not your VaultKeep to remove!");
+      }
+      _vks.RemoveVaultKeep(id);
+      return "Delorted VaultKeep";
     }
 
     private Keep GetKeepByID(int id)
@@ -40,10 +45,19 @@ namespace keeper.Services
       }
       return foundVault;
     }
+    private VaultKeep GetVaultKeepByID(int id)
+    {
+      VaultKeep foundVaultKeep = _vks.GetById(id);
+      if (foundVaultKeep == null)
+      {
+        throw new Exception("Invalid Id");
+      }
+      return foundVaultKeep;
+    }
 
     internal VaultKeep CreateVaultKeep(VaultKeep rawVaultKeep)
     {
-      throw new NotImplementedException();
+      return _vks.Create(rawVaultKeep);
     }
   }
 }

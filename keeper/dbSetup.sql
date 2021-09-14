@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS keeps(
 CREATE TABLE IF NOT EXISTS vaultKeeps(
   id INT NOT NULL AUTO_INCREMENT primary key COMMENT 'primary key',
   creatorId VARCHAR(255) NOT NULL COMMENT 'Creator ID',
-  vaultId INT COMMENT 'Vault ID',
+  vaultId INT NOT NULL COMMENT 'Vault ID',
   keepId INT NOT NULL COMMENT 'Keep ID',
   FOREIGN KEY (creatorId) REFERENCES accounts(id) ON DELETE CASCADE,
   FOREIGN KEY (vaultId) REFERENCES vaults(id) ON DELETE CASCADE,
