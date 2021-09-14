@@ -26,18 +26,20 @@ namespace keeper.Services
       if(foundVault == null) {
         throw new Exception("Invalid Id");
       }
-      if(foundVault.IsPrivate && foundVault.creatorId != userInfo.Id){
-        throw new Exception("Not your Keep to See!");
+      if(foundVault.IsPrivate && foundVault.CreatorId != userInfo.Id){
+        throw new Exception("Not your Vault to See!");
       }
       return foundVault;    }
 
-    internal Vault RemoveVault(int id, Profile userInfo)
+    internal String RemoveVault(int id, Profile userInfo)
     {
       Vault foundVault = GetVault(id, userInfo);
-      if(foundVault.creatorId != userInfo.Id){
+      if(foundVault.CreatorId != userInfo.Id){
         throw new Exception("Not your Keep to remove!");
       }
-      return _repo.RemoveVault(id);    }
+      _repo.RemoveVault(id);
+      return "Delorted Vault";
+    }
 
     internal Vault CreateVault(Vault rawVault)
     {
@@ -47,7 +49,7 @@ namespace keeper.Services
     internal Vault EditVault(Vault rawVault, Profile userInfo)
     {
       Vault foundVault = GetVault(rawVault.Id, userInfo);
-      if(foundVault.creatorId != userInfo.Id){
+      if(foundVault.CreatorId != userInfo.Id){
         throw new Exception("Not your Vault to Edit!");
       }
       foundVault.Name = rawVault.Name ?? foundVault.Name;

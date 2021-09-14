@@ -21,7 +21,7 @@ namespace keeper.Services
 
     internal Keep GetKeep(int id)
     {
-      Keep foundKeep = _repo.GetById();
+      Keep foundKeep = _repo.GetById(id);
       if(foundKeep == null) {
         throw new Exception("Invalid Id");
       }
@@ -31,7 +31,7 @@ namespace keeper.Services
     internal Keep RemoveKeep(int id, Profile account)
     {
       Keep foundKeep = GetKeep(id);
-      if(foundKeep.creatorId != account.Id){
+      if(foundKeep.CreatorId != account.Id){
         throw new Exception("Not your Keep to remove!");
       }
       return _repo.RemoveKeep(id);
@@ -39,13 +39,16 @@ namespace keeper.Services
 
     internal Keep CreateKeep(Keep rawKeep)
     {
+      rawKeep.Views = 0;
+      rawKeep.Shares = 0;
+      rawKeep.Keeps = 0;
       return _repo.Create(rawKeep);
     }
 
     internal Keep EditKeep(Keep rawKeep, Profile userInfo)
     {
       Keep foundKeep = GetKeep(rawKeep.Id);
-      if(foundKeep.creatorId != userInfo.Id){
+      if(foundKeep.CreatorId != userInfo.Id){
         throw new Exception("Not your Keep to Edit!");
       }
       foundKeep.Name = rawKeep.Name ?? foundKeep.Name;

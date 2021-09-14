@@ -6,8 +6,8 @@ namespace keeper.Models
     {
         public int Id { get; set; }
         [Required]
-        public string creatorId { get; set; }
-        public string  Name { get; set; }
+        public string CreatorId { get; set; }
+        public string Name { get; set; }
         public string Description { get; set; }
         [Required]
         public bool IsPrivate { get; set; }

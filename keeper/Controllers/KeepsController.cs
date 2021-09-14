@@ -72,7 +72,7 @@ namespace keeper.Controllers
         try
         {
             Profile userInfo = await HttpContext.GetUserInfoAsync<Account>();
-            rawKeep.creatorId = userInfo.Id;
+            rawKeep.CreatorId = userInfo.Id;
             Keep keep = _ks.CreateKeep(rawKeep);
             //  Ill maybe return the deleted item
              return Ok(keep);

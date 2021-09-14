@@ -51,14 +51,14 @@ namespace keeper.Controllers
 
     [HttpDelete("{id}")]
     [Authorize]
-    public async Task<ActionResult<Vault>> Remove(int id)
+    public async Task<ActionResult<string>> Remove(int id)
     {
         try
         {
             Profile userInfo = await HttpContext.GetUserInfoAsync<Account>();
-            Vault vault = _vs.RemoveVault(id, userInfo);
+             string result = _vs.RemoveVault(id, userInfo);
             //  Ill maybe return the deleted item
-             return Ok(vault);
+             return Ok(result);
         }
         catch (Exception err)
         {
@@ -73,7 +73,7 @@ namespace keeper.Controllers
         try
         {
             Profile userInfo = await HttpContext.GetUserInfoAsync<Account>();
-            rawVault.creatorId = userInfo.Id;
+            rawVault.CreatorId = userInfo.Id;
             Vault vault = _vs.CreateVault(rawVault);
             //  Ill maybe return the deleted item
              return Ok(vault);

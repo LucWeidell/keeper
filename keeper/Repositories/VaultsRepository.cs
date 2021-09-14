@@ -1,33 +1,85 @@
-using System;
 using keeper.Models;
 using System.Collections.Generic;
+using System.Data;
+using Dapper;
+using System.Linq;
+
 namespace keeper.Repositories
 {
 
   public class VaultsRepository
   {
-    internal List<Vault> GetAll()
+    private readonly IDbConnection _db;
+
+    public VaultsRepository(IDbConnection db)
     {
-      throw new NotImplementedException();
+      _db = db;
     }
-  internal Vault RemoveVault(int id)
-  {
-    throw new NotImplementedException();
-  }
 
-  internal Vault Create(Vault rawVault)
-  {
-    throw new NotImplementedException();
-  }
+    public List<Vault> GetAll()
+    {
+        string sql= @"
+        Select
+        v.*,
+        a.*
+        From vaults v
+        Join accounts a ON a.id = v.creatorId
+        Where v.isPrivate = 0;
+        ";
+        return _db.Query<Vault, Profile, Vault>(sql, (vault, prof) => {
+            vault.Creator = prof;
+            return vault;
+        }, splitOn: "id").ToList();
+    }
 
-  internal Vault GetById(int id)
-  {
-    throw new NotImplementedException();
-  }
+        public Vault GetById(int id)
+    {
+        string sql= @"
+        Select
+        v.*,
+        a.*
+        From vaults v
+        Join accounts a ON a.id = v.creatorId
+        Where v.id = @id;
+        ";
+        return _db.Query<Vault, Profile, Vault>(sql, (vault, prof) => {
+            vault.Creator = prof;
+            return vault;
+        }, new {id}).FirstOrDefault();
+    }
+    public void RemoveVault(int id)
+    {
+        string sql = @"
+        DELETE FROM vaults
+        WHERE id = @id;
+        ";
+        _db.Execute(sql, new {id});
+    }
 
-  internal Vault Update(Vault foundVault)
-  {
-    throw new NotImplementedException();
-  }
+    public Vault Create(Vault rawVault)
+    {
+        string sql = @"
+        INSERT INTO vaults (creatorId, name, description, isPrivate)
+        Values (@CreatorId, @Name, @Description, @IsPrivate);
+        Select LAST_INSERT_ID();";
+        rawVault.Id = _db.ExecuteScalar<int>(sql, rawVault);
+        return rawVault;
+    }
+
+
+
+    public Vault Update(Vault foundVault)
+    {
+        string sql = @"UPDATE vaults
+        SET
+            name = @Name,
+            description = @Description,
+            isPrivate = @IsPrivate
+        WHERE id = @Id
+        LIMIT 1;
+        ";
+        _db.Execute(sql, foundVault);
+        return GetById(foundVault.Id);
+    }
 }
 }
