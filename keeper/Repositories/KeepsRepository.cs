@@ -50,12 +50,33 @@ namespace keeper.Repositories
       throw new NotImplementedException();
     }
 
+    internal List<Keep> GetByProfileId(string profileId)
+    {
+      string sql= @"
+        Select
+        k.*,
+        a.*
+        From keeps k
+        Join accounts a ON a.id = v.creatorId
+        Where k.creatorId = @profileId;
+        ";
+        return _db.Query<Keep, Profile, Keep>(sql, (keep, prof) => {
+            keep.Creator = prof;
+            return keep;
+        }, new {profileId}, splitOn: "id").ToList();
+    }
+
     internal Keep Create(Keep rawKeep)
     {
       string sql = @"
       INSERT INTO vaults (creatorId, name, description, img, views, shares, keeps)
       Values (@CreatorId, @Name, @Description, @Img, @Views, @Shares, @Keeps);
-      Select LAST_INSERT_ID();
+      Select List<Vault> GetByProfileId(string profileId)
+    {
+      throw new NotImplementedException();
+    }
+
+    internal LAST_INSERT_ID();
       ";
       rawKeep.Id = _db.ExecuteScalar<int>(sql, rawKeep);
       return rawKeep;    }

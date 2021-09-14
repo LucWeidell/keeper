@@ -13,23 +13,24 @@ namespace keeper.Controllers
     public class ProfilesController : ControllerBase
     {
         private readonly AccountService _accountService;
-        private readonly ProfilesService _ps;
+        private readonly KeepsService _ks;
+        private readonly VaultsService _vs;
 
-    public ProfilesController(AccountService accountService, ProfilesService ps)
+    public ProfilesController(AccountService accountService, KeepsService ks, VaultsService vs)
     {
       _accountService = accountService;
-      _ps = ps;
+      _ks = ks;
+      _vs = vs;
     }
-
 
     [HttpGet("{id}/keeps")]
     public async Task<ActionResult<List<Keep>>> GetKeepsInProfile(string profileId)
     {
         try
         {
-            // FIXME
             Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
-            return Ok();
+            List<Keep> keeps = _ks.GetKeepsByProfile(profileId, userInfo);
+            return Ok(keeps);
         }
         catch (Exception err)
         {
@@ -50,15 +51,20 @@ namespace keeper.Controllers
     {
         try
         {
-            // FIXME
             Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
-            return Ok();
+            List<Vault> vaults = _vs.GetVaultsByProfile(profileId, userInfo);
+            return Ok(vaults);
         }
-        catch (System.Exception)
+        catch (Exception err)
         {
-
-            throw;
+            return BadRequest(err.Message);
         }
+    }
+
+    [HttpGet("{id}")]
+    public ActionResult<Profile> Get(string id)
+    {
+        return _accountService.GetProfileById(id);
     }
     }
 }

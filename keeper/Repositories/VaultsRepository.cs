@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Data;
 using Dapper;
 using System.Linq;
-
 namespace keeper.Repositories
 {
 
@@ -47,6 +46,23 @@ namespace keeper.Repositories
             return vault;
         }, new {id}).FirstOrDefault();
     }
+
+    internal List<Vault> GetByProfileId(string profileId)
+    {
+        string sql= @"
+        Select
+        v.*,
+        a.*
+        From vaults v
+        Join accounts a ON a.id = v.creatorId
+        Where v.creatorId = @id;
+        ";
+        return _db.Query<Vault, Profile, Vault>(sql, (vault, prof) => {
+            vault.Creator = prof;
+            return vault;
+        }, new {profileId}, splitOn: "id").ToList();
+    }
+
     public void RemoveVault(int id)
     {
         string sql = @"

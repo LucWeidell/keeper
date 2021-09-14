@@ -29,7 +29,17 @@ namespace keeper.Services
       if(foundVault.IsPrivate && foundVault.CreatorId != userInfo.Id){
         throw new Exception("Not your Vault to See!");
       }
-      return foundVault;    }
+      return foundVault;
+      }
+
+    internal List<Vault> GetVaultsByProfile(string profileId, Profile userInfo)
+    {
+      List<Vault> vaults = _repo.GetByProfileId(profileId);
+      if(userInfo.Id == profileId){
+        return vaults;
+      }
+      return vaults.FindAll(v => v.IsPrivate == false);
+    }
 
     internal String RemoveVault(int id, Profile userInfo)
     {

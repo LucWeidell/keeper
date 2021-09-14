@@ -45,6 +45,12 @@ namespace keeper.Services
       return _repo.Create(rawKeep);
     }
 
+    internal List<Keep> GetKeepsByProfile(string profileId, Profile userInfo)
+    {
+      List<Keep> keeps = _repo.GetByProfileId(profileId);
+      return keeps;
+    }
+
     internal Keep EditKeep(Keep rawKeep, Profile userInfo)
     {
       Keep foundKeep = GetKeep(rawKeep.Id);
