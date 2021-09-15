@@ -2,9 +2,11 @@
   <div class="KeepCard">
     <div class="card ">
       <div class="card-body card-img">
-        <img :src="keep.img" alt="" srcset="">
+        <img class="contain" :src="keep.img" alt="" srcset="">
         <div class="card-img-overlay text-light d-flex justify-content-around align-items-end mb-1">
-          <h4>{{ keep.name }}</h4>
+          <h4 class="text-shadow">
+            {{ keep.name }}
+          </h4>
           <img class="rounded-pill" src="http://placebeard.it/50x50" alt="" @click.stop="profileNavigate">
         </div>
       </div>
@@ -50,7 +52,7 @@
           <div class="container-fluid">
             <div class="row">
               <div class="col-md-6">
-                <img class="w-100 h-100" src="http://placebeard.it/500x500" alt="">
+                <img class="h-100" src="http://placebeard.it/500x500" alt="">
               </div>
               <div class="col-md-6">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -165,4 +167,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.contain {
+  object-fit: contain;
+}
 </style>
