@@ -1,15 +1,11 @@
-using System.ComponentModel.DataAnnotations;
-
 namespace keeper.Models
 {
-    public class Keep
+  public class Keep
     {
         public int Id { get; set; }
-        [Required]
         public string CreatorId { get; set; }
         public string  Name { get; set; }
         public string Description { get; set; }
-        [Required]
         public string Img { get; set; }
         public int? Views { get; set; }
         public int? Shares { get; set; }

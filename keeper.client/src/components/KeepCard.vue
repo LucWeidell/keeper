@@ -1,12 +1,15 @@
 <template>
-  <div class="masonry-with-flex px-2 mt-2 flex-grow-1">
-    <div class="KeepCard flex-grow-1 h-100 col-md-3 d-flex align-items-end justify-content-between" data-toggle="modal" :data-target="'#keep-detail-'+keep.id" style="background-image: url('http://placebeard.it/300x300'); background-size: cover;">
-      <h4>Name Keep</h4>
-      <!-- FIXME add the keep creator id here in params -->
-      <img class="rounded-pill" src="http://placebeard.it/50x50" alt="" @click.stop="profileNavigate">
+  <div class="KeepCard">
+    <div class="card ">
+      <div class="card-body card-img">
+        <img :src="keep.img" alt="" srcset="">
+        <div class="card-img-overlay text-light d-flex justify-content-around align-items-end mb-1">
+          <h4>{{ keep.name }}</h4>
+          <img class="rounded-pill" src="http://placebeard.it/50x50" alt="" @click.stop="profileNavigate">
+        </div>
+      </div>
     </div>
   </div>
-
   <!-- Modal for Edits -->
   <div class="modal fade"
        :id="'keep-detail-'+keep.id"
@@ -162,21 +165,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.masonry-with-flex {
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-  .col-md-3 {
-    max-width: 300px;
-    min-width: 300px;
-    min-height: 400px;
-    // min-height:600px;
-    color: white;
-    margin: 0 1rem 1rem 0;
-    font-family: system-ui;
-    font-weight: 900;
-    font-size: 2rem;
-  }
-}
-
 </style>

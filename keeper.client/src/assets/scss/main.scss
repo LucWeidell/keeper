@@ -22,3 +22,42 @@ main {
   display: flex;
   align-items: stretch;
 }
+
+.card-columns {
+  .card {
+    margin-bottom: $card-columns-margin;
+  }
+
+  // @include media-breakpoint-up(sm) {
+  //   column-count: $card-columns-count;
+  //   column-gap: $card-columns-gap;
+  //   orphans: 1;
+  //   widows: 1;
+
+  //   .card {
+  //     display: inline-block; // Don't let them vertically span multiple columns
+  //     width: 100%; // Don't let their width change
+  //   }
+  // }
+
+  @include media-breakpoint-up(sm) {
+    column-count: $card-columns-count;
+    column-gap: $card-columns-gap;
+    orphans: 1;
+    widows: 1;
+
+    .card {
+      display: inline-block; // Don't let them vertically span multiple columns
+      width: 100%; // Don't let their width change
+    }
+  }
+  .card-img-overlay {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    padding: $card-img-overlay-padding;
+  }
+}
+

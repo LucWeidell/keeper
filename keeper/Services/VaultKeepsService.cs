@@ -29,12 +29,12 @@ namespace keeper.Services
 
     private Keep GetKeepByID(int id)
     {
-      Keep foundKeep = _ks.GetById(id);
-      if (foundKeep == null)
+      Keep foundVaultKeep = _ks.GetById(id);
+      if (foundVaultKeep == null)
       {
         throw new Exception("Invalid Id");
       }
-      return foundKeep;
+      return foundVaultKeep;
     }
     private Vault GetVaultByID(int id)
     {
@@ -45,7 +45,7 @@ namespace keeper.Services
       }
       return foundVault;
     }
-    private VaultKeep GetVaultKeepByID(int id)
+    internal VaultKeep GetVaultKeepByID(int id)
     {
       VaultKeep foundVaultKeep = _vks.GetById(id);
       if (foundVaultKeep == null)

@@ -36,6 +36,7 @@ export const AppState = reactive({
     CreatorId: '6132aa76b7da62ee06dc46e5',
     Name: 'Third Keep',
     Description: 'My Second Keep ever',
+    Img: 'http://placebeard.it/350x500',
     Views: 10,
     Shares: 10,
     Keeps: 3
@@ -60,7 +61,7 @@ export const AppState = reactive({
     CreatorId: '6132aa76b7da62ee06dc46e5',
     Name: 'Sixth Keep',
     Description: 'My Second Keep ever',
-    Img: 'http://placebeard.it/300x400',
+    Img: 'http://placebeard.it/300x450',
     Views: 10,
     Shares: 10,
     Keeps: 3

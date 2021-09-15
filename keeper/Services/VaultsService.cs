@@ -35,7 +35,9 @@ namespace keeper.Services
     internal List<Vault> GetVaultsByProfile(string profileId, Profile userInfo)
     {
       List<Vault> vaults = _repo.GetByProfileId(profileId);
-      if(userInfo.Id == profileId){
+      if(userInfo == null){
+        return vaults.FindAll(v => v.IsPrivate == false);
+      }else if(userInfo.Id == profileId){
         return vaults;
       }
       return vaults.FindAll(v => v.IsPrivate == false);

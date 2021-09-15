@@ -21,18 +21,30 @@ namespace keeper.Controllers
     }
 
 
+    [HttpGet("{id}")]
+    public ActionResult<VaultKeep> Get(int id)
+    {
+        try
+        {
+             VaultKeep vaultKeep = _vks.GetVaultKeepByID(id);
+             return Ok(vaultKeep);
+        }
+        catch (Exception err)
+        {
+            return BadRequest(err.Message);
+        }
+    }
 
 
 
     [HttpDelete("{id}")]
-    public async Task<ActionResult<VaultKeep>> Remove(int id)
+    public async Task<ActionResult<string>> Remove(int id)
     {
         try
         {
             Profile userInfo = await HttpContext.GetUserInfoAsync<Account>();
             string result = _vks.RemoveVaultKeep(id, userInfo);
-            //  Ill maybe return the deleted item
-             return Ok(result);
+            return Ok(result);
         }
         catch (Exception err)
         {
@@ -41,14 +53,13 @@ namespace keeper.Controllers
     }
 
     [HttpPost]
-    public async Task<ActionResult<VaultKeep>> Create([FromBody] VaultKeep rawVaultKeep)
+    public async Task<ActionResult<string>> Create([FromBody] VaultKeep rawVaultKeep)
     {
         try
         {
             Profile userInfo = await HttpContext.GetUserInfoAsync<Account>();
             rawVaultKeep.CreatorId = userInfo.Id;
             VaultKeep vaultKeep = _vks.CreateVaultKeep(rawVaultKeep);
-            //  Ill maybe return the deleted item
              return Ok(vaultKeep);
         }
         catch (Exception err)

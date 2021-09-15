@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -45,45 +44,45 @@ namespace keeper.Repositories
             return keep;
         }, new {id}).FirstOrDefault();    }
 
-    internal Keep RemoveKeep(int id)
+    internal void RemoveKeep(int id)
     {
-      throw new NotImplementedException();
+      string sql = @"
+      DELETE FROM keeps
+      WHERE id = @id;
+      ";
+      _db.Execute(sql, new {id});
     }
 
-    internal List<Keep> GetByProfileId(string profileId)
+    internal List<Keep> GetByProfileId(string id)
     {
       string sql= @"
         Select
         k.*,
         a.*
         From keeps k
-        Join accounts a ON a.id = v.creatorId
-        Where k.creatorId = @profileId;
+        Join accounts a ON a.id = k.creatorId
+        Where k.creatorId = @id;
         ";
         return _db.Query<Keep, Profile, Keep>(sql, (keep, prof) => {
             keep.Creator = prof;
             return keep;
-        }, new {profileId}, splitOn: "id").ToList();
+        }, new {id}, splitOn: "id").ToList();
     }
 
     internal Keep Create(Keep rawKeep)
     {
       string sql = @"
-      INSERT INTO vaults (creatorId, name, description, img, views, shares, keeps)
+      INSERT INTO keeps (creatorId, name, description, img, views, shares, keeps)
       Values (@CreatorId, @Name, @Description, @Img, @Views, @Shares, @Keeps);
-      Select List<Vault> GetByProfileId(string profileId)
-    {
-      throw new NotImplementedException();
-    }
-
-    internal LAST_INSERT_ID();
+      SELECT LAST_INSERT_ID();
       ";
       rawKeep.Id = _db.ExecuteScalar<int>(sql, rawKeep);
-      return rawKeep;    }
+      return GetById(rawKeep.Id);
+    }
 
     internal Keep Update(Keep foundKeep)
     {
-        string sql = @"UPDATE vaults
+        string sql = @"UPDATE keeps
         SET
             name = @Name,
             description = @Description,

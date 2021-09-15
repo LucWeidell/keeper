@@ -55,7 +55,7 @@ namespace keeper.Repositories
         a.*
         From vaults v
         Join accounts a ON a.id = v.creatorId
-        Where v.creatorId = @id;
+        Where v.creatorId = @profileId;
         ";
         return _db.Query<Vault, Profile, Vault>(sql, (vault, prof) => {
             vault.Creator = prof;
@@ -78,8 +78,8 @@ namespace keeper.Repositories
         INSERT INTO vaults (creatorId, name, description, isPrivate)
         Values (@CreatorId, @Name, @Description, @IsPrivate);
         Select LAST_INSERT_ID();";
-        rawVault.Id = _db.ExecuteScalar<int>(sql, rawVault);
-        return rawVault;
+        int id = _db.ExecuteScalar<int>(sql, rawVault);
+        return GetById(id);
     }
 
 

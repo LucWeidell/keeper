@@ -23,6 +23,7 @@ CREATE TABLE IF NOT EXISTS keeps(
   updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Last Update',
   name varchar(255) COMMENT 'Keep Name',
   creatorId VARCHAR(255) NOT NULL COMMENT 'Creator ID',
+  description varchar(255) COMMENT 'Vault Descr',
   img varchar(255) COMMENT 'Keep Img Picture',
   views int COMMENT 'Keep View Count',
   shares int COMMENT 'Keep Share Count',

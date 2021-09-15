@@ -50,14 +50,14 @@ namespace keeper.Controllers
 
     [HttpDelete("{id}")]
     [Authorize]
-    public async Task<ActionResult<Keep>> Remove(int id)
+    public async Task<ActionResult<String>> Remove(int id)
     {
         try
         {
             Profile userInfo = await HttpContext.GetUserInfoAsync<Account>();
-            Keep keep = _ks.RemoveKeep(id, userInfo);
+            String result = _ks.RemoveKeep(id, userInfo);
             //  Ill maybe return the deleted item
-             return Ok(keep);
+             return Ok(result);
         }
         catch (Exception err)
         {

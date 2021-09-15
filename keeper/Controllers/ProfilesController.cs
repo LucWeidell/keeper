@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace keeper.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("/api/[controller]")]
     public class ProfilesController : ControllerBase
     {
         private readonly AccountService _accountService;
@@ -23,13 +23,19 @@ namespace keeper.Controllers
       _vs = vs;
     }
 
-    [HttpGet("{id}/keeps")]
+    [HttpGet("{id}")]
+    public ActionResult<Profile> Get(string id)
+    {
+        return _accountService.GetProfileById(id);
+    }
+
+    [HttpGet("{profileId}/keeps")]
     public async Task<ActionResult<List<Keep>>> GetKeepsInProfile(string profileId)
     {
         try
         {
             Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
-            List<Keep> keeps = _ks.GetKeepsByProfile(profileId, userInfo);
+            List<Keep> keeps = _ks.GetKeepsByProfile(profileId);
             return Ok(keeps);
         }
         catch (Exception err)
@@ -46,8 +52,8 @@ namespace keeper.Controllers
         // }
     }
 
-    [HttpGet("{id}/vaults")]
-    public async Task<ActionResult<List<Keep>>> GetVaultsInProfile(string profileId)
+    [HttpGet("{profileId}/vaults")]
+    public async Task<ActionResult<List<Vault>>> GetVaultsInProfile(string profileId)
     {
         try
         {
@@ -61,10 +67,5 @@ namespace keeper.Controllers
         }
     }
 
-    [HttpGet("{id}")]
-    public ActionResult<Profile> Get(string id)
-    {
-        return _accountService.GetProfileById(id);
-    }
     }
 }

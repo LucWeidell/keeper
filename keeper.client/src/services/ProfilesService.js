@@ -24,7 +24,7 @@ class ProfilesService {
   }
 
   async getById(id) {
-    const res = await api.get('/api/profiles' + id)
+    const res = await api.get('/api/profiles/' + id)
     logger.log('Data for get profile by id: ', res.data)
     // AppState.activeProfile = res.data
     return res.data

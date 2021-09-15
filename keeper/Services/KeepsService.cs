@@ -28,13 +28,14 @@ namespace keeper.Services
       return foundKeep;
     }
 
-    internal Keep RemoveKeep(int id, Profile account)
+    internal string RemoveKeep(int id, Profile account)
     {
       Keep foundKeep = GetKeep(id);
       if(foundKeep.CreatorId != account.Id){
         throw new Exception("Not your Keep to remove!");
       }
-      return _repo.RemoveKeep(id);
+       _repo.RemoveKeep(id);
+       return "Delorted Keep";
     }
 
     internal Keep CreateKeep(Keep rawKeep)
@@ -45,7 +46,7 @@ namespace keeper.Services
       return _repo.Create(rawKeep);
     }
 
-    internal List<Keep> GetKeepsByProfile(string profileId, Profile userInfo)
+    internal List<Keep> GetKeepsByProfile(string profileId)
     {
       List<Keep> keeps = _repo.GetByProfileId(profileId);
       return keeps;
