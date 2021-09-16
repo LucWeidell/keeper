@@ -1,10 +1,10 @@
 <template>
   <div class="KeepCard">
-    <div class="card ">
-      <div class="card-body card-img">
-        <img class="contain" :src="keep.img" alt="" srcset="">
+    <div class="card p-0">
+      <div class="card-body card-img p-0">
+        <img class="w-100 h-100" :src="keep.img" alt="" srcset="">
         <div class="card-img-overlay text-light d-flex justify-content-around align-items-end mb-1">
-          <h4 class="text-shadow">
+          <h4 class="shadower">
             {{ keep.name }}
           </h4>
           <img class="rounded-pill" src="http://placebeard.it/50x50" alt="" @click.stop="profileNavigate">
@@ -168,6 +168,6 @@ export default {
 
 <style lang="scss" scoped>
 .contain {
-  object-fit: contain;
+  object-fit: fill;
 }
 </style>

@@ -55,8 +55,13 @@ namespace keeper.Services
       return foundVaultKeep;
     }
 
-    internal VaultKeep CreateVaultKeep(VaultKeep rawVaultKeep)
+    internal VaultKeep CreateVaultKeep(VaultKeep rawVaultKeep, Profile userInfo)
     {
+      if(userInfo == null){
+        throw new Exception("Must be logged in to put keep in vault.");
+      }
+      GetVaultByID(rawVaultKeep.vaultId);
+      rawVaultKeep.CreatorId = userInfo.Id;
       return _vks.Create(rawVaultKeep);
     }
   }

@@ -53,13 +53,12 @@ namespace keeper.Controllers
     }
 
     [HttpPost]
-    public async Task<ActionResult<string>> Create([FromBody] VaultKeep rawVaultKeep)
+    public async Task<ActionResult<VaultKeep>> Create([FromBody] VaultKeep rawVaultKeep)
     {
         try
         {
             Profile userInfo = await HttpContext.GetUserInfoAsync<Account>();
-            rawVaultKeep.CreatorId = userInfo.Id;
-            VaultKeep vaultKeep = _vks.CreateVaultKeep(rawVaultKeep);
+            VaultKeep vaultKeep = _vks.CreateVaultKeep(rawVaultKeep, userInfo);
              return Ok(vaultKeep);
         }
         catch (Exception err)

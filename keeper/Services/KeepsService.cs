@@ -8,10 +8,16 @@ namespace keeper.Services
   public class KeepsService
   {
     private readonly KeepsRepository _repo;
+    private readonly VaultKeepsRepository _vkRepo;
 
-    public KeepsService(KeepsRepository repo)
+    private readonly VaultsService _vs;
+
+
+    public KeepsService(KeepsRepository repo, VaultsService vs, VaultKeepsRepository vkRepo)
     {
       _repo = repo;
+      _vs = vs;
+      _vkRepo = vkRepo;
     }
 
     internal List<Keep> GetKeeps()
@@ -25,6 +31,8 @@ namespace keeper.Services
       if(foundKeep == null) {
         throw new Exception("Invalid Id");
       }
+      foundKeep.Views++;
+      _repo.UpdateViews(foundKeep);
       return foundKeep;
     }
 
@@ -61,10 +69,13 @@ namespace keeper.Services
       foundKeep.Name = rawKeep.Name ?? foundKeep.Name;
       foundKeep.Description = rawKeep.Description ?? foundKeep.Description;
       foundKeep.Img = rawKeep.Img ?? foundKeep.Img;
-      foundKeep.Views = rawKeep.Views ?? foundKeep.Views;
-      foundKeep.Shares = rawKeep.Shares ?? foundKeep.Shares;
-      foundKeep.Keeps = rawKeep.Keeps ?? foundKeep.Keeps;
       return _repo.Update(foundKeep);
+    }
+
+    internal List<KeepWitVaultViewModel> GetKeepsByVault(int vaultId, Profile userInfo)
+    {
+      _vs.GetVault(vaultId, userInfo);
+      return _vkRepo.GetKeepsByVault(vaultId);
     }
   }
 }

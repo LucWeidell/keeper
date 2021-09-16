@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using Dapper;
@@ -18,19 +19,18 @@ namespace keeper.Repositories
     {
         string sql = @"
         DELETE FROM vaultKeeps
-        WHERE id = @id;
+        WHERE id = @id
+        LIMIT 1;
         ";
-        _db.Execute(sql, new {id});    }
+        _db.Execute(sql, new {id});
+    }
 
     internal VaultKeep GetById(int id)
     {
         string sql= @"
-        Select
-        vk.*,
-        From vaultKeeps vk
-        Where vk.id = @id;
+        Select * From vaultKeeps WHERE id = @id LIMIT 1;
         ";
-        return _db.Query(sql, new {id}).FirstOrDefault();
+        return _db.Query<VaultKeep>(sql, new {id}).FirstOrDefault();
     //     string sql =@"
     //     Select
     //     v.*,
@@ -50,5 +50,23 @@ namespace keeper.Repositories
       ";
       rawVaultKeep.Id = _db.ExecuteScalar<int>(sql, rawVaultKeep);
       return rawVaultKeep;     }
+
+    internal List<KeepWitVaultViewModel> GetKeepsByVault(int vaultId)
+    {
+      string sql = @"
+      SELECT
+      a.*,
+      k.*,
+      vk.id AS vaultKeepId
+      FROM vaultKeeps vk
+      JOIN keeps k ON vk.keepId = k.id
+      JOIN accounts a On k.creatorId = a.id
+      WHERE vk.vaultId = @vaultId;
+      ";
+      return _db.Query<Profile, KeepWitVaultViewModel, KeepWitVaultViewModel>(sql, (prof, kwvvm) => {
+        kwvvm.Creator = prof;
+        return kwvvm;
+      }, new {vaultId}, splitOn: "id").ToList();
+    }
   }
 }

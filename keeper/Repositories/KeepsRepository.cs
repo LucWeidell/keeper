@@ -86,14 +86,22 @@ namespace keeper.Repositories
         SET
             name = @Name,
             description = @Description,
-            img = @Img,
-            views = @Views,
-            shares = @Shares,
-            keeps = @Keeps
+            img = @Img
         WHERE id = @Id
         LIMIT 1;
         ";
         _db.Execute(sql, foundKeep);
         return GetById(foundKeep.Id);    }
+
+    internal void UpdateViews(Keep foundKeep)
+    {
+        string sql = @"UPDATE keeps
+        SET
+          views = @Views
+        WHERE id = @Id
+        LIMIT 1;
+        ";
+        _db.Execute(sql, foundKeep);
+    }
   }
 }

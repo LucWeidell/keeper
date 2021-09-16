@@ -1,6 +1,6 @@
 <template>
   <div class="HomePage container-fluid flex-grow-1">
-    <div class="row card-columns flex-grow-1">
+    <div class="card-columns flex-grow-1 mt-2">
       <KeepCard v-for="k in keeps" :key="k.id" :keep="k" />
     </div>
   </div>

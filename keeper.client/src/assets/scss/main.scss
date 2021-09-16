@@ -43,8 +43,8 @@ main {
   @include media-breakpoint-up(sm) {
     column-count: $card-columns-count;
     column-gap: $card-columns-gap;
-    orphans: 8;
-    widows: 8;
+    orphans: 1;
+    widows: 1;
 
     .card {
       display: inline-block; // Don't let them vertically span multiple columns
@@ -59,6 +59,10 @@ main {
     bottom: 0;
     left: 0;
     padding: $card-img-overlay-padding;
+  }
+
+  .shadower {
+    text-shadow: 1px 1px 2px black;
   }
 }
 
