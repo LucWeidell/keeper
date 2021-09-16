@@ -12,9 +12,9 @@ class KeepsService {
   }
 
   async getKeepById(id) {
-    const res = await api.get('/api/keeps' + id)
+    const res = await api.get('/api/keeps/' + id)
     logger.log('Data for get keep by id: ', res.data)
-    // AppState.keeps = res.data
+    AppState.activeKeep = res.data
     return res.data
   }
 
@@ -25,21 +25,28 @@ class KeepsService {
     return res.data
   }
 
-  // FIXME add account authentication
   async removeKeep(id) {
-    const res = await api.delete('/api/keeps' + id)
+    await this.isYourAccount(id)
+    const res = await api.delete('/api/keeps/' + id)
     logger.log('Data for remove keep by id: ', res.data)
     AppState.keeps = AppState.keeps.filter(k => k.id !== id)
     return res.data
   }
 
-  // FIXME add account authentication
   async editKeep(rawKeep) {
-    const res = await api.put('/api/keeps' + rawKeep.id, new Keep(rawKeep))
+    await this.isYourAccount()
+    const res = await api.put('/api/keeps/' + rawKeep.id, new Keep(rawKeep))
     logger.log('Data for edit keep by id: ', res.data)
     const found = AppState.keeps.find(k => rawKeep.id === k.id)
     Object.assign(found, res.data)
     return res.data
+  }
+
+  async isYourAccount(editingId) {
+    const item = await this.getKeepById(editingId)
+    if (AppState.account.id !== item.Creator) {
+      throw new Error('Not Valid Keep for you to Edit!')
+    }
   }
 }
 
