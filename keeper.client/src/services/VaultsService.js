@@ -54,7 +54,7 @@ class VaultsService {
 
   async isYourAccount(editingId) {
     const item = await this.getVaultById(editingId)
-    if (AppState.account.id !== item.Creator) {
+    if (AppState.account.id !== item.creator.id) {
       throw new Error('Not Valid Vault for you to Edit!')
     }
   }

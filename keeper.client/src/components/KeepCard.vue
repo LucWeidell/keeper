@@ -30,16 +30,16 @@
                 <img class="w-100" :src="keep.img" alt="">
               </div>
               <div class="col-md-6">
-                <div class="row justify-content-center">
+                <div class="row h-100 justify-content-around">
                   <div class="col-md-12">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                       <span aria-hidden="true">&times;</span>
                     </button>
                   </div>
-                  <div class="col-md-4">
-                    <i class="mdi mdi-eye mdi-24px px-1" style="fill: green;" aria-hidden="true">{{ state.keeps.views }}</i>
-                    <i class="mdi mdi-alpha-k-box-outline mdi-24px px-1" style="fill: green;" aria-hidden="true">{{ state.keeps.keeps }}</i>
-                    <i class="mdi mdi-share-variant mdi-24px px-1" style="fill: green;" aria-hidden="true">{{ state.keeps.shares }}</i>
+                  <div class="col-md-5">
+                    <i class="mdi mdi-eye mdi-24px px-1" style="color: green;" aria-hidden="true">:  {{ state.keeps.views }}</i>
+                    <i class="mdi mdi-alpha-k-box-outline mdi-24px px-1" style="color: green;" aria-hidden="true">:  {{ state.keeps.keeps }}</i>
+                    <i class="mdi mdi-share-variant mdi-24px px-1" style="color: green;" aria-hidden="true">:  {{ state.keeps.shares }}</i>
                   </div>
                   <div class="col-md-9">
                     <h3>{{ keep.name }}</h3>
@@ -47,31 +47,35 @@
                   <div class="col-md-11">
                     <p>{{ keep.description }}</p>
                   </div>
-                  <div class="col-md-6">
-                    <div class="dropdown rounded bg-green">
-                      <div
-                        class="dropdown-toggle"
-                        @click="state.dropOpen = !state.dropOpen"
-                      >
-                        <span class="text-light mx-3"><b>Add To Vault: </b> </span>
-                      </div>
-                      <div
-                        v-for="v in vaults"
-                        :key="v.id"
-                        class="dropdown-menu p-0 list-group w-100"
-                        :class="{ show: state.dropOpen }"
-                        @click="state.dropOpen = false"
-                      >
-                        <div class="list-group-item list-group-item-action hoverable" @click="addKeepToVault(v.id)">
-                          {{ v.name }}
+                  <div class="row justify-content-center">
+                    <div class="col-sm-4 col-md-5 d-flex align-items-center">
+                      <div class="dropdown rounded bg-green">
+                        <div
+                          class="dropdown-toggle"
+                          @click="state.dropOpen = !state.dropOpen"
+                        >
+                          <span class="text-light mx-1"><b>Add To Vault: </b> </span>
+                        </div>
+                        <div
+                          class="dropdown-menu p-0 list-group w-100"
+                          :class="{ show: state.dropOpen }"
+                          @click="state.dropOpen = false"
+                        >
+                          <div v-for="v in vaults"
+                               :key="v.id"
+                               class="list-group-item list-group-item-action hoverable"
+                               @click="addKeepToVault(v.id)"
+                          >
+                            {{ v.name }}
+                          </div>
                         </div>
                       </div>
+                      <i v-if="keep.creatorId===account.id" class="mdi mdi-delete-outline mdi-36px" style="color: red;" aria-hidden="true" @click="removeKeep"></i>
                     </div>
-                    <i v-if="keep.creatorId===account.id" class="mdi mdi-delete-outline mdi-24px" style="fill: red;" aria-hidden="true" @click="removeKeep"></i>
-                  </div>
-                  <div class="col-md-6 d-flex align-items-center justify-content-between action" @click.stop="profileNavigate">
-                    <img class="rounded-pill w-25" :src="keep.creator.picture" alt="">
-                    <h6>{{ keep.creator.name }}</h6>
+                    <div class="col-sm-6 col-md-6 d-flex align-items-center action" @click.stop="profileNavigate">
+                      <img class="rounded-pill w-25" :src="keep.creator.picture" alt="">
+                      <h6>{{ keep.creator.name }}</h6>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -146,6 +150,18 @@ export default {
         } catch (error) {
           Pop.toast('Failed to add View Counter: ' + error, 'error')
         }
+      },
+      async removeKeep() {
+        try {
+          if (await Pop.confirm()) {
+            $(('#keep-detail-' + props.keep.id)).modal('hide')
+
+            await keepsService.removeKeep(props.keep.id)
+            Pop.toast('Perma Deleted this Keep!', 'success')
+          }
+        } catch (error) {
+          Pop.toast('Failed to add View Counter: ' + error, 'error')
+        }
       }
     }
   }
@@ -157,6 +173,8 @@ export default {
   object-fit: fill;
 }
 .dropdown-menu {
+  max-height: 25vh;
+  overflow-y: scroll;
   user-select: none;
   display: block;
   transform: scale(0);

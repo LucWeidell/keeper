@@ -44,7 +44,7 @@ class KeepsService {
 
   async isYourAccount(editingId) {
     const item = await this.getKeepById(editingId)
-    if (AppState.account.id !== item.Creator) {
+    if (AppState.account.id !== item.creator.id) {
       throw new Error('Not Valid Keep for you to Edit!')
     }
   }

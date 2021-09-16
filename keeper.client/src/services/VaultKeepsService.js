@@ -28,8 +28,8 @@ class VaultKeepsService {
 
   async isYourAccount(editingId) {
     const item = await this.getVaultKeepById(editingId)
-    if (AppState.account.id !== item.Creator) {
-      throw new Error('Not Valid Keep for you to Edit!')
+    if (AppState.account.id !== item.creator.id) {
+      throw new Error('Not Valid VaultKeep for you to Edit!')
     }
   }
 }
