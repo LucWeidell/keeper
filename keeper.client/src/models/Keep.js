@@ -23,5 +23,7 @@ export default class Keep {
     this.keeps = keep.Keeps
     /** @type {Profile} */
     this.Creator = (keep.Creator) ? new Profile(keep.Creator) : null
+    /** @type {int} */
+    this.vaultKeepId = keep.VaultKeepId || null
   }
 }

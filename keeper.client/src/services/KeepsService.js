@@ -22,7 +22,12 @@ class KeepsService {
     const res = await api.get('/api/keeps/' + id + '/keeps')
     logger.log('Data for get keep by id with new view: ', res.data)
     const found = AppState.keeps.find(k => id === k.id)
-    Object.assign(found, res.data)
+    if (!found) {
+      const found = AppState.activeVaultKeeps.find(k => id === k.id)
+      Object.assign(found.keeps, res.data.keeps)
+    } else {
+      Object.assign(found.keeps, res.data.keeps)
+    }
     return res.data
   }
 

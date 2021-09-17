@@ -2,7 +2,7 @@
   <div class="KeepCard">
     <div class="card p-0 action" :data-target="'#keep-detail-'+keep.id" data-toggle="modal" @click="incrementKeepViews">
       <div class="card-body card-img p-0">
-        <img class="w-100 h-100" :src="keep.img" alt="" srcset="">
+        <img class="w-100" :src="keep.img" alt="" srcset="">
         <div v-if="showimg" class="card-img-overlay text-light d-flex justify-content-around align-items-end mb-1">
           <h4 class="shadower">
             {{ keep.name }}
@@ -31,7 +31,7 @@
        :aria-labelledby="'keep-detail-'+keep.id"
        aria-hidden="true"
   >
-    <div class="modal-dialog modal-dialog-centered" style="max-width: 95%; " role="document">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 97%; " role="document">
       <div class="modal-content">
         <div class="model-header"></div>
         <div class="modal-body">
@@ -49,7 +49,15 @@
                           <span aria-hidden="true">&times;</span>
                         </button>
                       </div>
-                      <div class="col d-flex justify-content-center">
+                      <div v-if="state.vaultKeep != null" class=" d-flex justify-content-center">
+                        <i class="mdi mdi-eye mdi-24px px-1" style="color: green;" aria-hidden="true">:  {{ state.vaultKeep.views }}</i>
+                        <i class="mdi mdi-alpha-k-box-outline mdi-24px px-1" style="color: green;" aria-hidden="true">:  {{ state.vaultKeep.keeps }}</i>
+                        <i class="mdi mdi-share-variant mdi-24px px-1" style="color: green;" aria-hidden="true">:  {{ state.vaultKeep.shares }}</i>
+                        <button v-if=" profile.id===account.id && account != {}" type="button" class="btn btn-sm btn-danger" @click="removeKeepFromVault">
+                          - from Vault
+                        </button>
+                      </div>
+                      <div v-else class="col d-flex justify-content-center">
                         <i class="mdi mdi-eye mdi-24px px-1" style="color: green;" aria-hidden="true">:  {{ state.keeps.views }}</i>
                         <i class="mdi mdi-alpha-k-box-outline mdi-24px px-1" style="color: green;" aria-hidden="true">:  {{ state.keeps.keeps }}</i>
                         <i class="mdi mdi-share-variant mdi-24px px-1" style="color: green;" aria-hidden="true">:  {{ state.keeps.shares }}</i>
@@ -70,8 +78,8 @@
                       </div>
                     </div>
                   </div>
-                  <div class="col-md-12">
-                    <div class="row justify-content-center mb-1">
+                  <div class="col-md-12 d-flex p-0 align-items-end ">
+                    <div class="row flex-grow-1 justify-content-around mb-1">
                       <div class="col-auto col-md-5 d-flex p-0 align-items-center">
                         <div class="dropdown rounded bg-green">
                           <div
@@ -96,7 +104,7 @@
                         </div>
                         <i v-if="keep.creatorId===account.id" class="mdi mdi-delete-outline mdi-24px action" style="color: red;" aria-hidden="true" @click="removeKeep"></i>
                       </div>
-                      <div class="col-auto d-flex p-0 pl-2 align-items-center action" @click.stop="profileNavigate">
+                      <div class="col-auto d-flex p-0 pl-1 align-items-center action" @click.stop="profileNavigate">
                         <img class="rounded" :src="keep.creator.picture" height="25" alt="">
                         <p class="m-0 pl-1">
                           {{ keep.creator.name }}
@@ -116,7 +124,7 @@
 
 <script>
 import $ from 'jquery'
-import { computed, onBeforeMount, reactive } from '@vue/runtime-core'
+import { computed, reactive } from '@vue/runtime-core'
 import { useRouter } from 'vue-router'
 import { AppState } from '../AppState'
 import Pop from '../utils/Notifier'
@@ -135,24 +143,17 @@ export default {
     }
   },
   setup(props) {
-    onBeforeMount(async() => {
-      try {
-        // logger.log('I AM IN THE KEEP CAR: ', props.keep)
-        // logger.log('I AM IN THE KEEP CARD APP ACCOUNT: ', AppState.account.name)
-        // await keepsService.getKeepById(props.keep.id)
-      } catch (error) {
-        // Pop.toast('Failed to get Keep by Id: ' + error, 'error')
-      }
-    })
     const router = useRouter()
     const state = reactive({
       dropOpen: false,
-      keeps: AppState.keeps.find(k => k.id === props.keep.id)
+      keeps: AppState.keeps.find(k => k.id === props.keep.id),
+      vaultKeep: AppState.activeVaultKeeps.find(k => k.id === props.keep.id)
     })
     return {
       state,
       router,
       account: computed(() => AppState.account),
+      profile: computed(() => AppState.activeProfile),
       vaults: computed(() => AppState.vaults),
 
       async profileNavigate() {
@@ -177,7 +178,12 @@ export default {
       async incrementKeepViews() {
         try {
           const keep = await keepsService.getKeepById(props.keep.id)
-          state.keeps = keep
+          if (state.keeps?.views) {
+            state.keeps.views = keep.views
+          }
+          if (state.vaultKeep?.views) {
+            state.vaultKeep.views = keep.views
+          }
         } catch (error) {
           Pop.toast('Failed to add View Counter: ' + error, 'error')
         }
@@ -191,6 +197,18 @@ export default {
           }
         } catch (error) {
           Pop.toast('Failed to add View Counter: ' + error, 'error')
+        }
+      },
+      async removeKeepFromVault() {
+        try {
+          if (await Pop.confirm()) {
+            // debugger
+            $(('#keep-detail-' + props.keep.id)).modal('hide')
+            await vaultKeepsService.removeVaultKeep(props.keep.vaultKeepId)
+            Pop.toast('Removed Keep from Vault', 'success')
+          }
+        } catch (error) {
+          Pop.toast('Failed to remove keep from vault: ' + error, 'error')
         }
       }
     }
@@ -222,7 +240,7 @@ a:hover {
 
 .modal-body{
   img{
-    max-height: 85vh;
+    max-height: 70vh;
   }
 }
 

@@ -5,9 +5,9 @@ import { api } from './AxiosService'
 
 class VaultKeepsService {
   async getVaultKeepById(id) {
-    const res = await api.get('/api/vaultKeep' + id)
+    const res = await api.get('/api/vaultKeeps/' + id)
     logger.log('Data for getting vaultKeep by id: ', res.data)
-    AppState.activeVault = res.data
+    // AppState.activeVault = res.data
     return res.data
   }
 
@@ -19,15 +19,15 @@ class VaultKeepsService {
 
   async removeVaultKeep(id) {
     await this.isYourAccount(id)
-    const res = await api.delete('/api/vaultKeeps' + id)
+    const res = await api.delete('/api/vaultKeeps/' + id)
     logger.log('Data for remove vaultKeep by id: ', res.data)
-    AppState.activeKeeps = AppState.activeKeeps.filter(k => k.vaultKeepId !== id)
+    AppState.activeVaultKeeps = AppState.activeVaultKeeps.filter(k => k.vaultKeepId !== id)
     return res.data
   }
 
   async isYourAccount(editingId) {
     const item = await this.getVaultKeepById(editingId)
-    if (AppState.account.id !== item.creator.id) {
+    if (AppState.account.id !== item.creatorId) {
       throw new Error('Not Valid VaultKeep for you to Edit!')
     }
   }

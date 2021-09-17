@@ -13,8 +13,8 @@ class VaultsService {
   }
 
   async getVaultById(id) {
-    await this.isYourAccount(id)
-    const res = await api.get('/api/vault' + id)
+    // await this.isYourAccount(id)
+    const res = await api.get('/api/vaults/' + id)
     logger.log('Data for get vault by id: ', res.data)
     AppState.activeVault = res.data
     return res.data
@@ -22,14 +22,14 @@ class VaultsService {
 
   async getKeepsInVault(id) {
     await this.getVaultById
-    const res = await api.get('/api/vault' + id + '/keeps')
+    const res = await api.get('/api/vaults/' + id + '/keeps')
     logger.log('Data for get keeps in vault: ', res.data)
-    AppState.keeps = res.data
+    AppState.activeVaultKeeps = res.data
     return res.data
   }
 
   async createVault(rawVault) {
-    const res = await api.post('/api/keeps', new Vault(rawVault))
+    const res = await api.post('/api/vaults', new Vault(rawVault))
     logger.log('Daa create Vault: ', res.data)
     AppState.vaults.push(new Vault(res.data))
     return res.data
@@ -37,7 +37,7 @@ class VaultsService {
 
   async removeVault(id) {
     await this.isYourAccount(id)
-    const res = await api.delete('/api/vaults' + id)
+    const res = await api.delete('/api/vaults/' + id)
     logger.log('Data for remove keep by id: ', res.data)
     AppState.vaults = AppState.vaults.filter(k => k.id !== id)
     return res.data
