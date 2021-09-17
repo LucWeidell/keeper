@@ -20,7 +20,7 @@
        :aria-labelledby="'keep-detail-'+keep.id"
        aria-hidden="true"
   >
-    <div class="modal-dialog modal-dialog-centered" style="max-width: 90%; overflow-y: auto;" role="document">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 95%; " role="document">
       <div class="modal-content">
         <div class="model-header"></div>
         <div class="modal-body">
@@ -31,50 +31,66 @@
               </div>
               <div class="col-md-6">
                 <div class="row h-100 justify-content-around">
+                  <div class="col-md-12 ">
+                    <div class="row justify-content-center">
+                      <div class="col-md-12">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="col d-flex justify-content-center">
+                        <i class="mdi mdi-eye mdi-24px px-1" style="color: green;" aria-hidden="true">:  {{ state.keeps.views }}</i>
+                        <i class="mdi mdi-alpha-k-box-outline mdi-24px px-1" style="color: green;" aria-hidden="true">:  {{ state.keeps.keeps }}</i>
+                        <i class="mdi mdi-share-variant mdi-24px px-1" style="color: green;" aria-hidden="true">:  {{ state.keeps.shares }}</i>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-11 modal-text-space">
+                    <div class="row">
+                      <div class="col-md-12 py-2 text-center">
+                        <h1>{{ keep.name }}</h1>
+                      </div>
+                      <div class="col-md-11 pt-3">
+                        <h5>
+                          <span class="font-weight-normal">
+                            {{ keep.description }}
+                          </span>
+                        </h5>
+                      </div>
+                    </div>
+                  </div>
                   <div class="col-md-12">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </div>
-                  <div class="col-md-5">
-                    <i class="mdi mdi-eye mdi-24px px-1" style="color: green;" aria-hidden="true">:  {{ state.keeps.views }}</i>
-                    <i class="mdi mdi-alpha-k-box-outline mdi-24px px-1" style="color: green;" aria-hidden="true">:  {{ state.keeps.keeps }}</i>
-                    <i class="mdi mdi-share-variant mdi-24px px-1" style="color: green;" aria-hidden="true">:  {{ state.keeps.shares }}</i>
-                  </div>
-                  <div class="col-md-9">
-                    <h3>{{ keep.name }}</h3>
-                  </div>
-                  <div class="col-md-11">
-                    <p>{{ keep.description }}</p>
-                  </div>
-                  <div class="row justify-content-center">
-                    <div class="col-sm-4 col-md-5 d-flex align-items-center">
-                      <div class="dropdown rounded bg-green">
-                        <div
-                          class="dropdown-toggle"
-                          @click="state.dropOpen = !state.dropOpen"
-                        >
-                          <span class="text-light mx-1"><b>Add To Vault: </b> </span>
-                        </div>
-                        <div
-                          class="dropdown-menu p-0 list-group w-100"
-                          :class="{ show: state.dropOpen }"
-                          @click="state.dropOpen = false"
-                        >
-                          <div v-for="v in vaults"
-                               :key="v.id"
-                               class="list-group-item list-group-item-action hoverable"
-                               @click="addKeepToVault(v.id)"
+                    <div class="row justify-content-center mb-1">
+                      <div class="col-auto col-md-5 d-flex p-0 align-items-center">
+                        <div class="dropdown rounded bg-green">
+                          <div
+                            class="dropdown-toggle"
+                            @click="state.dropOpen = !state.dropOpen"
                           >
-                            {{ v.name }}
+                            <span class="text-light mx-1"><b>Add To Vault:</b> </span>
+                          </div>
+                          <div
+                            class="dropdown-menu p-0 list-group w-100"
+                            :class="{ show: state.dropOpen }"
+                            @click="state.dropOpen = false"
+                          >
+                            <div v-for="v in vaults"
+                                 :key="v.id"
+                                 class="list-group-item list-group-item-action action hoverable"
+                                 @click="addKeepToVault(v.id)"
+                            >
+                              {{ v.name }}
+                            </div>
                           </div>
                         </div>
+                        <i v-if="keep.creatorId===account.id" class="mdi mdi-delete-outline mdi-24px action" style="color: red;" aria-hidden="true" @click="removeKeep"></i>
                       </div>
-                      <i v-if="keep.creatorId===account.id" class="mdi mdi-delete-outline mdi-36px" style="color: red;" aria-hidden="true" @click="removeKeep"></i>
-                    </div>
-                    <div class="col-sm-6 col-md-6 d-flex align-items-center action" @click.stop="profileNavigate">
-                      <img class="rounded-pill w-25" :src="keep.creator.picture" alt="">
-                      <h6>{{ keep.creator.name }}</h6>
+                      <div class="col-auto d-flex p-0 pl-2 align-items-center action" @click.stop="profileNavigate">
+                        <img class="rounded" :src="keep.creator.picture" height="25" alt="">
+                        <p class="m-0 pl-1">
+                          {{ keep.creator.name }}
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -95,8 +111,6 @@ import { AppState } from '../AppState'
 import Pop from '../utils/Notifier'
 import { vaultKeepsService } from '../services/VaultKeepsService'
 import { keepsService } from '../services/KeepsService'
-import { logger } from '../utils/Logger'
-
 export default {
   name: 'KeepCard',
   props: {
@@ -128,6 +142,7 @@ export default {
 
       async profileNavigate() {
         try {
+          $(('#keep-detail-' + props.keep.id)).modal('hide')
           await router.push({ name: 'Profile', params: { id: props.keep.creatorId } })
         } catch (error) {
           Pop.toast('Failed to got to Profile: ' + error, 'error')
@@ -135,7 +150,7 @@ export default {
       },
       async addKeepToVault(vaultsId) {
         try {
-          const createdVaultKeep = { keepId: props.keep.id, vaultId: vaultsId }
+          const createdVaultKeep = { KeepId: props.keep.id, VaultId: vaultsId }
           await vaultKeepsService.createVaultKeep(createdVaultKeep)
           $(('#keep-detail-' + props.keep.id)).modal('hide')
           Pop.toast('Added Keep to Vault', 'success')
@@ -155,7 +170,6 @@ export default {
         try {
           if (await Pop.confirm()) {
             $(('#keep-detail-' + props.keep.id)).modal('hide')
-
             await keepsService.removeKeep(props.keep.id)
             Pop.toast('Perma Deleted this Keep!', 'success')
           }
@@ -194,6 +208,10 @@ a:hover {
   img{
     max-height: 85vh;
   }
+}
+
+.modal-text-space{
+  min-height: 65%;
 }
 
 </style>

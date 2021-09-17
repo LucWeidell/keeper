@@ -1,6 +1,7 @@
 
 import { AppState } from '../AppState'
 import Vault from '../models/Vault'
+import VaultKeep from '../models/VaultKeep'
 import { logger } from '../utils/Logger'
 import { api } from './AxiosService'
 
@@ -12,9 +13,9 @@ class VaultKeepsService {
     return res.data
   }
 
-  async createVaultKeep(rawVault) {
-    const res = await api.post('/api/vaultKeeps', new Vault(rawVault))
-    logger.log('Daa create VaultKeep: ', res.data)
+  async createVaultKeep(rawVaultKeep) {
+    const res = await api.post('/api/vaultKeeps', new VaultKeep(rawVaultKeep))
+    logger.log('Data create VaultKeep: ', res.data)
     return res.data
   }
 
