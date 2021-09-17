@@ -67,7 +67,6 @@ import { AuthService } from '../services/AuthService'
 import { AppState } from '../AppState'
 import { computed, reactive } from 'vue'
 import { useRouter } from 'vue-router'
-import { accountService } from '../services/AccountService'
 import Pop from '../utils/Notifier'
 
 export default {

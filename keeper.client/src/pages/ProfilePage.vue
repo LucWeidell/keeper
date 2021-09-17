@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import { onMounted, reactive } from '@vue/runtime-core'
+import { computed, onMounted, reactive } from '@vue/runtime-core'
 import { useRoute } from 'vue-router'
 import Pop from '../utils/Notifier'
 import { profilesService } from '../services/ProfilesService'
@@ -18,10 +18,9 @@ export default {
   setup() {
     const route = useRoute()
     const state = reactive({
-      account: AppState.account,
-      profile: AppState.activeProfile,
-      vaults: AppState.activeProfileVaults,
-      myVaults: AppState.vaults
+      account: computed(() => AppState.account),
+      profile: computed(() => AppState.activeProfile),
+      vaults: computed(() => AppState.activeProfileVaults)
     })
     onMounted(async() => {
       try {
