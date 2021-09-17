@@ -19,7 +19,7 @@ class ProfilesService {
   async getVaultsInProfile(id) {
     const res = await api.get('/api/profiles/' + id + '/vaults')
     logger.log('Data for get keeps: ', res.data)
-    AppState.vaults = res.data
+    AppState.activeVaults = res.data
     return res.data
   }
 
