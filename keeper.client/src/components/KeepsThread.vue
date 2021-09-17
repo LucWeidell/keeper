@@ -7,6 +7,7 @@
          style="color: green;"
          data-toggle="modal"
          data-target="#createKeep"
+         title="Create a Keep"
       ></i>
     </div>
     <div class="mt-3 card-columns flex-grow-1">

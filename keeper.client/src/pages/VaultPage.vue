@@ -4,7 +4,13 @@
       <h1 class="pl-1">
         {{ state.vault.name }}
       </h1>
-      <i v-if="state.vault.creatorId===state.account.id" class="mdi mdi-delete-outline mdi-36px action" style="color: red;" aria-hidden="true" @click="removeVault"></i>
+      <i v-if="state.vault.creatorId===state.account.id"
+         class="mdi mdi-delete-outline mdi-36px action"
+         style="color: red;"
+         title="Delete Vault"
+         aria-hidden="true"
+         @click="removeVault"
+      ></i>
     </div>
     <div class="row">
       <h5 class="pl-1">

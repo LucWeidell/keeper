@@ -19,6 +19,7 @@
        tabindex="-1"
        role="dialog"
        aria-labelledby="modelTitleId"
+       title="Create a Vault"
        aria-hidden="true"
   >
     <div class="modal-dialog" role="document">

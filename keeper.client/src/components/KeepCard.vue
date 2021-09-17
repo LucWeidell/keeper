@@ -1,7 +1,7 @@
 <template>
   <div class="KeepCard">
     <div class="card p-0 action" :data-target="'#keep-detail-'+keep.id" data-toggle="modal" @click="incrementKeepViews">
-      <div class="card-body card-img p-0">
+      <div class="card-body card-img p-0" title="View Keep Details">
         <img class="w-100" :src="keep.img" alt="" srcset="">
         <div v-if="showimg" class="card-img-overlay text-light d-flex justify-content-around align-items-end mb-1">
           <h4 class="shadower">
@@ -12,6 +12,7 @@
             :src="keep.creator.picture"
             height="40"
             alt="profile-pic"
+            title="Go To Profile"
             @click.stop="profileNavigate"
           >
         </div>
@@ -102,10 +103,16 @@
                             </div>
                           </div>
                         </div>
-                        <i v-if="keep.creatorId===account.id" class="mdi mdi-delete-outline mdi-24px action" style="color: red;" aria-hidden="true" @click="removeKeep"></i>
+                        <i v-if="keep.creatorId===account.id"
+                           class="mdi mdi-delete-outline mdi-24px action"
+                           style="color: red;"
+                           title="Delete Keep"
+                           aria-hidden="true"
+                           @click="removeKeep"
+                        ></i>
                       </div>
-                      <div class="col-auto d-flex p-0 pl-1 align-items-center action" @click.stop="profileNavigate">
-                        <img class="rounded" :src="keep.creator.picture" height="25" alt="">
+                      <div class="col-auto d-flex p-0 pl-1 align-items-center action" title="Go To Profile" @click.stop="profileNavigate">
+                        <img class="rounded" :src="keep.creator.picture" height="25" alt="profile-image">
                         <p class="m-0 pl-1">
                           {{ keep.creator.name }}
                         </p>
