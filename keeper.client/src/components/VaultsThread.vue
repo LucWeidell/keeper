@@ -35,13 +35,16 @@
           <form @submit.prevent="createVault">
             <div class="form-group">
               <div class="">
-                <label for="title">Title</label>
+                <label for="titleVault">Title</label>
                 <input type="text"
                        v-model="state.createdVault.name"
                        placeholder="Title..."
-                       id="title"
-                       name="name"
+                       id="titleVault"
+                       name="titleVault"
                        class="form-control"
+                       required
+                       minlength="3"
+                       maxlength="15"
                 >
               </div>
               <!-- <div class="mt-2">
@@ -55,13 +58,15 @@
                 >
               </div> -->
               <div class="mt-2">
-                <label for="description">Description</label>
+                <label for="descriptionVault">Description</label>
                 <textarea v-model="state.createdVault.description"
                           placeholder="Vault Description"
                           class="form-control"
-                          name="description"
-                          id="description"
+                          name="descriptionVault"
+                          id="descriptionVault"
                           rows="4"
+                          minlength="3"
+                          maxlength="50"
                 ></textarea>
               </div>
               <div class="mt-2">

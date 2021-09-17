@@ -60,7 +60,10 @@ namespace keeper.Services
       if(userInfo == null){
         throw new Exception("Must be logged in to put keep in vault.");
       }
-      GetVaultByID(rawVaultKeep.vaultId);
+      Vault foundVault = GetVaultByID(rawVaultKeep.vaultId);
+      if(foundVault.CreatorId != userInfo.Id){
+        throw new Exception("Can only add keeps to your vaults.");
+      }
       rawVaultKeep.CreatorId = userInfo.Id;
       return _vks.Create(rawVaultKeep);
     }

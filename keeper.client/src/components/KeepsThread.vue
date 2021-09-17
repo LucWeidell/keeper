@@ -35,33 +35,40 @@
           <form @submit.prevent="createKeep">
             <div class="form-group">
               <div class="">
-                <label for="title">Title</label>
+                <label for="titleKeep">Title</label>
                 <input type="text"
                        v-model="state.createdKeep.name"
                        placeholder="Title..."
-                       id="title"
-                       name="name"
+                       id="titleKeep"
+                       name="titleKeep"
                        class="form-control"
+                       required
+                       minlength="3"
+                       maxlength="20"
                 >
               </div>
               <div class="mt-2">
-                <label for="img">Image Url</label>
+                <label for="imgKeep">Image Url</label>
                 <input type="text"
                        v-model="state.createdKeep.img"
                        placeholder="URL..."
-                       id="img"
-                       name="img"
+                       id="imgKeep"
+                       name="imgKeep"
                        class="form-control"
+                       required
                 >
               </div>
               <div class="mt-2">
-                <label for="description">Description</label>
+                <label for="descriptionKeep">Description</label>
                 <textarea v-model="state.createdKeep.description"
                           placeholder="Keep Description"
                           class="form-control"
-                          name="description"
-                          id="description"
+                          name="descriptionKeep"
+                          id="descriptionKeep"
                           rows="4"
+                          required
+                          minlength="3"
+                          maxlength="40"
                 ></textarea>
               </div>
               <div class="d-flex mt-3 align-items-baseline justify-content-end">
