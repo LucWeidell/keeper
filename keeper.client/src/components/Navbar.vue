@@ -1,8 +1,8 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-dark  bg-blue">
-    <router-link class="navbar-brand d-flex" :to="{ name: 'Home' }">
+  <nav class="navbar navbar-expand-lg navbar-dark p-0 px-1  bg-blue">
+    <router-link class="navbar-brand p-0 d-flex" :to="{ name: 'Home' }">
       <div class="d-flex flex-column align-items-center">
-        <i class="fas fa-lock" aria-hidden="true"></i>
+        <i class="mdi mdi-alpha-k-box-outline mdi-48px px-1" style="color: black;" aria-hidden="true"></i>
       </div>
     </router-link>
     <button
@@ -18,6 +18,11 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarText">
       <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <router-link :to="{name: 'Home'}" class="nav-link text-light">
+            Home
+          </router-link>
+        </li>
       </ul>
       <span class="navbar-text">
         <button
