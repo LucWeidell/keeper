@@ -23,10 +23,10 @@ class KeepsService {
     // logger.log('Data for get keep by id with new view: ', res.data)
     const found = AppState.keeps.find(k => id === k.id)
     if (!found) {
-      const found = AppState.activeVaultKeeps.find(k => id === k.id)
-      Object.assign(found.keeps, res.data.keeps)
+      const foundNew = AppState.activeVaultKeeps.find(k => id === k.id)
+      foundNew.keeps++
     } else {
-      Object.assign(found.keeps, res.data.keeps)
+      found.keeps++
     }
     return res.data
   }

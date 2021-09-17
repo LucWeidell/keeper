@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-dark p-0 px-1  bg-blue">
+  <nav class="navbar navbar-expand-lg navbar-dark p-0 px-1  bg-dark-grey">
     <router-link class="navbar-brand p-0 d-flex" :to="{ name: 'Home' }">
       <div class="d-flex flex-column align-items-center">
         <i class="mdi mdi-alpha-k-box-outline mdi-48px px-1" style="color: black;" aria-hidden="true"></i>
