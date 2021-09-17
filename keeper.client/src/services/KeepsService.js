@@ -32,8 +32,8 @@ class KeepsService {
   }
 
   async createKeep(rawKeep) {
-    const res = await api.post('/api/keeps', new Keep(rawKeep))
-    logger.log('Daa create Keep: ', res.data)
+    const res = await api.post('/api/keeps', rawKeep)
+    logger.log('Data create Keep: ', res.data)
     AppState.keeps.push(res.data)
     return res.data
   }

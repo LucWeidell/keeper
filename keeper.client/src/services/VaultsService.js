@@ -29,9 +29,10 @@ class VaultsService {
   }
 
   async createVault(rawVault) {
-    const res = await api.post('/api/vaults', new Vault(rawVault))
-    logger.log('Daa create Vault: ', res.data)
+    const res = await api.post('/api/vaults', rawVault)
+    logger.log('Data create Vault: ', res.data)
     AppState.vaults.push(new Vault(res.data))
+    AppState.activeProfileVaults.push(new Vault(res.data))
     return res.data
   }
 
@@ -43,9 +44,9 @@ class VaultsService {
     return res.data
   }
 
-  async editKeep(rawVault) {
+  async editVault(rawVault) {
     await this.isYourAccount()
-    const res = await api.put('/api/vaults' + rawVault.id, new Vault(rawVault))
+    const res = await api.put('/api/vaults/' + rawVault.id, new Vault(rawVault))
     logger.log('Data for edit keep by id: ', res.data)
     const found = AppState.vaults.find(k => rawVault.id === k.id)
     Object.assign(found, res.data)
