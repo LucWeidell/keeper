@@ -18,6 +18,14 @@ class KeepsService {
     return res.data
   }
 
+  async addKeepDownload(id) {
+    const res = await api.get('/api/keeps/' + id + '/keeps')
+    logger.log('Data for get keep by id with new view: ', res.data)
+    const found = AppState.keeps.find(k => id === k.id)
+    Object.assign(found, res.data)
+    return res.data
+  }
+
   async createKeep(rawKeep) {
     const res = await api.post('/api/keeps', new Keep(rawKeep))
     logger.log('Daa create Keep: ', res.data)

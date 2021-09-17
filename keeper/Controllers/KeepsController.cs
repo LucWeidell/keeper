@@ -49,7 +49,7 @@ namespace keeper.Controllers
     }
 
     [HttpGet("{id}/keeps")]
-    public ActionResult<List<Keep>> GetWithAddDownload(int id)
+    public ActionResult<Keep> GetWithAddDownload(int id)
     {
         try
         {

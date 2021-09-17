@@ -42,7 +42,7 @@ namespace keeper.Services
         throw new Exception("Invalid Id");
       }
       foundKeep.Keeps++;
-      _repo.UpdateViews(foundKeep);
+      _repo.UpdateKeeps(foundKeep);
       return foundKeep;
     }
 

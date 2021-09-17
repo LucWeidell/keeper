@@ -152,6 +152,7 @@ export default {
         try {
           const createdVaultKeep = { KeepId: props.keep.id, VaultId: vaultsId }
           await vaultKeepsService.createVaultKeep(createdVaultKeep)
+          await keepsService.addKeepDownload(props.keep.id)
           $(('#keep-detail-' + props.keep.id)).modal('hide')
           Pop.toast('Added Keep to Vault', 'success')
         } catch (error) {
