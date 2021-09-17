@@ -3,11 +3,22 @@
     <div class="card p-0 action" :data-target="'#keep-detail-'+keep.id" data-toggle="modal" @click="incrementKeepViews">
       <div class="card-body card-img p-0">
         <img class="w-100 h-100" :src="keep.img" alt="" srcset="">
-        <div class="card-img-overlay text-light d-flex justify-content-around align-items-end mb-1">
+        <div v-if="showimg" class="card-img-overlay text-light d-flex justify-content-around align-items-end mb-1">
           <h4 class="shadower">
             {{ keep.name }}
           </h4>
-          <img class="action rounded-pill" :src="keep.creator.picture" height="40" alt="profile-pic" @click.stop="profileNavigate">
+          <img
+            class="action rounded-pill"
+            :src="keep.creator.picture"
+            height="40"
+            alt="profile-pic"
+            @click.stop="profileNavigate"
+          >
+        </div>
+        <div v-else class="card-img-overlay text-light d-flex justify-content-start align-items-end mb-1">
+          <h4 class="shadower m-0">
+            {{ keep.name }}
+          </h4>
         </div>
       </div>
     </div>
@@ -116,6 +127,10 @@ export default {
   props: {
     keep: {
       type: Object,
+      required: true
+    },
+    showimg: {
+      type: Boolean,
       required: true
     }
   },
