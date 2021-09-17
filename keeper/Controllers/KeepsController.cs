@@ -48,6 +48,20 @@ namespace keeper.Controllers
         }
     }
 
+    [HttpGet("{id}/keeps")]
+    public ActionResult<List<Keep>> GetWithAddDownload(int id)
+    {
+        try
+        {
+             Keep keep = _ks.GetKeepAddDownload(id);
+             return Ok(keep);
+        }
+        catch (Exception err)
+        {
+            return BadRequest(err.Message);
+        }
+    }
+
     [HttpDelete("{id}")]
     [Authorize]
     public async Task<ActionResult<String>> Remove(int id)

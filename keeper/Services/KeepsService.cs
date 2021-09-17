@@ -35,6 +35,16 @@ namespace keeper.Services
       _repo.UpdateViews(foundKeep);
       return foundKeep;
     }
+    internal Keep GetKeepAddDownload(int id)
+    {
+      Keep foundKeep = _repo.GetById(id);
+      if(foundKeep == null) {
+        throw new Exception("Invalid Id");
+      }
+      foundKeep.Keeps++;
+      _repo.UpdateViews(foundKeep);
+      return foundKeep;
+    }
 
     internal string RemoveKeep(int id, Profile account)
     {

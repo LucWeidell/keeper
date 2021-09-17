@@ -103,5 +103,15 @@ namespace keeper.Repositories
         ";
         _db.Execute(sql, foundKeep);
     }
+    internal void UpdateKeeps(Keep foundKeep)
+    {
+        string sql = @"UPDATE keeps
+        SET
+          keeps = @Keeps
+        WHERE id = @Id
+        LIMIT 1;
+        ";
+        _db.Execute(sql, foundKeep);
+    }
   }
 }
